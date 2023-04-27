@@ -1,0 +1,18 @@
+version: '3'
+
+# docker-compose.yaml based upon work done by OpenSAFELY Core: https://github.com/opensafely-core/output-explorer/blob/main/docker/docker-compose.yaml
+
+services:
+  dev:
+    # image name, both locally and public
+    image: pytm-renderer
+    container_name: pytm-renderer
+    build:
+      context: ..
+      # path relative to context
+      dockerfile: docker/Dockerfile
+      # the runtime stage in the Dockerfile
+      target: runtime
+    volumes:
+      - ..:/usr/src/app
+    user: "${CURRENT_USER}"

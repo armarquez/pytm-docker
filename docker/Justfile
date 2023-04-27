@@ -1,0 +1,37 @@
+#!/usr/bin/env just --justfile
+# ^ A shebang isn't required, but allows a justfile to be executed
+#   like a script, with `./justfile test`, for example.
+
+# use with https://github.com/casey/just
+# Justfile based upon work done by OpenSAFELY Core: https://github.com/opensafely-core
+
+export DOCKER_USERID := `id -u`
+export DOCKER_GROUPID := `id -g`
+
+# Load .env files by default
+set dotenv-load := true
+
+# enable modern docker build features
+export DOCKER_BUILDKIT := "1"
+export COMPOSE_DOCKER_CLI_BUILD := "1"
+
+
+build env="dev":
+    #!/usr/bin/env bash
+
+    # set build args for prod builds
+    export BUILD_DATE=$(date -u +'%y-%m-%dT%H:%M:%SZ')
+    export GITREF=$(git rev-parse --short HEAD)
+
+    # build the thing
+    docker-compose build --pull {{ env }}
+
+
+# run command in dev container
+run *args="sh":
+    docker-compose run --rm dev {{ args }}
+
+
+# exec command in existing dev container
+exec *args="sh":
+    docker-compose exec dev {{ args }}
