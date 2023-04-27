@@ -1,2 +1,2 @@
-# pytm-docker
-Putting pytm threat modeling tool into a container w/ a command runner.
+# pytm-renderer
+Putting pytm threat modeling tool into a Docker container w/ a command runner to make rendering simplistic.
